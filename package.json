@@ -1,0 +1,10 @@
+{
+  "name": "nutrition-go-live",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve . -l 3000",
+    "check": "node scripts/check.mjs"
+  }
+}
