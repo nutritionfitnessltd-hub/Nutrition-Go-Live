@@ -1,84 +1,191 @@
 export const launchAt = '2026-11-01T09:00:00+00:00';
 
-export const workstreams = [
-  {id:'decide',name:'Decide',short:'Decide',description:'Make the few decisions that everything else depends on.'},
-  {id:'build',name:'Build',short:'Build',description:'Finish the app, website, programmes, recipes and physical products.'},
-  {id:'sell',name:'Sell',short:'Sell',description:'Make buying, payment, emails, support and fulfilment work properly.'},
-  {id:'launch',name:'Launch',short:'Launch',description:'Test with real people, fix blockers and go live.'}
-];
-
-export const phases = [
-  {id:'decide',name:'DECIDE',start:'2026-09-18',end:'2026-09-20',tone:'Lock the offer, prices and owners.'},
-  {id:'build',name:'BUILD',start:'2026-09-21',end:'2026-10-04',tone:'Finish the things customers will actually use and buy.'},
-  {id:'connect',name:'CONNECT',start:'2026-10-05',end:'2026-10-11',tone:'Connect payments, CRM, email and fulfilment.'},
-  {id:'test',name:'TEST',start:'2026-10-12',end:'2026-10-25',tone:'Run the complete journey with real people.'},
-  {id:'ready',name:'GET READY',start:'2026-10-26',end:'2026-10-31',tone:'Fix blockers only. No new ideas.'},
-  {id:'live',name:'GO LIVE',start:'2026-11-01',end:'2026-11-01',tone:'Launch to the warm audience first, then scale.'}
-];
-
-const T=(id,workstream,phase,title,priority,due,instructions,doneMeans,dependencies=[],owner='Unassigned',status='todo')=>({
-  id,workstream,phase,title,priority,due,instructions,doneMeans,dependencies,owner,status,submissions:[],notes:[],updatedAt:null
+const I=(id,title,progress,status='todo',owner='James',note='',weight=1,children=[],later=false)=>({
+  id,title,progress,status,owner,note,weight,children,later,submissions:[]
 });
 
-export const seedTasks = [
-  T('GO-01','decide','decide','Decide exactly what we are launching','P0','2026-09-18',
-    'Write one short launch list. Include only what will genuinely be available on 1 November: NUFI, programmes, supplements, books and any bundles. Anything else goes on the Later list.',
-    'There is one agreed launch list that the whole team can understand in under two minutes.'),
-  T('GO-02','decide','decide','Set the prices','P0','2026-09-19',
-    'Put one price next to every launch item. Include monthly or annual subscription prices where relevant. Do not build complicated discount rules yet.',
-    'Every launch item has one approved price and nobody needs to ask what it costs.',['GO-01']),
-  T('GO-03','decide','decide','Give every big job an owner','P0','2026-09-20',
-    'Assign one person to each of the remaining jobs in this app. One owner means one person is responsible for getting it over the line, even if other people help.',
-    'No launch job is unassigned.'),
+const C=(id,title,progress,status='todo',note='')=>I(id,title,progress,status,'',note,1,[],false);
 
-  T('GO-04','build','build','Finish the customer-facing app','P0','2026-09-27',
-    'Only finish the essentials: sign up, login, onboarding, programme access, workouts, meal plans, recipes, progress and account basics. Ignore nice-to-have features until after launch.',
-    'A new customer can sign up and use the core app without help.'),
-  T('GO-05','build','build','Finish the launch programmes and food content','P0','2026-10-01',
-    'Complete only the programmes, workouts, exercises, recipes and meal plans that are actually on the launch list. Remove placeholders and unfinished items.',
-    'Everything advertised for launch contains real, complete content.',['GO-01']),
-  T('GO-06','build','build','Finish the website and shop','P0','2026-10-03',
-    'Make sure a stranger can understand what Nutrition.Fitness is, choose the right option, see the price and buy it. Finish the key sales pages, quiz, shop and checkout journey.',
-    'A new visitor can understand, choose and reach checkout without explanation.',['GO-01','GO-02']),
-  T('GO-07','build','build','Get the physical products ready','P0','2026-10-04',
-    'For each launch product confirm supplier, final product, packaging, cost, order quantity, delivery date and how it will be packed and sent. Clothing is Later unless already ready.',
-    'Every physical launch product has a confirmed route from supplier to customer.',['GO-01','GO-02']),
-
-  T('GO-08','sell','connect','Make payments and subscriptions work','P0','2026-10-07',
-    'Test one-off payments and subscriptions from start to finish. Check confirmation, failed payment, cancellation and the customer getting the correct access.',
-    'A real test payment works and the customer receives exactly what they bought.',['GO-02','GO-04','GO-06']),
-  T('GO-09','sell','connect','Set up the customer follow-up','P0','2026-10-09',
-    'Keep this small: lead welcome, purchase confirmation, app getting-started email, abandoned checkout follow-up and support contact. Use GoHighLevel for the shared customer journey.',
-    'A test lead and a test customer receive the correct messages in the correct order.',['GO-06','GO-08']),
-  T('GO-10','sell','connect','Prepare launch marketing','P1','2026-10-11',
-    'Prepare the first launch campaign only: warm email list, social posts, core ad creative and the landing pages they point to. Do not build months of campaigns.',
-    'Everything needed for the first week of launch can be switched on without creating new material.',['GO-06','GO-09']),
-  T('GO-11','sell','connect','Make support and admin ready','P0','2026-10-11',
-    'Confirm the support email, who answers it, refunds/returns basics, shipping information, privacy/terms and how sales/refunds are recorded in accounts.',
-    'A customer problem, refund or support question has a clear owner and process.'),
-
-  T('GO-12','launch','test','Test the whole journey yourself','P0','2026-10-16',
-    'Pretend you are a brand-new customer. Find the site, take the quiz, buy, create an account, open the app, start a workout, use a meal plan and check every email. Repeat for a supplement order.',
-    'The complete journey works from first visit to product/app use with no major blocker.',['GO-04','GO-05','GO-06','GO-07','GO-08','GO-09']),
-  T('GO-13','launch','test','Give it to real people and watch what goes wrong','P0','2026-10-24',
-    'Give the finished journey to a small group who did not build it. Do not guide them. Record where they get stuck, what they misunderstand and what breaks.',
-    'There is one short ranked list of real problems to fix before launch.',['GO-12']),
-  T('GO-14','launch','ready','Fix launch blockers and go live','P0','2026-11-01',
-    'From 26 October onward, do not add new features. Fix only things that stop people understanding, buying, accessing, using or receiving what they bought. On 31 October run one final check, then launch warm traffic on 1 November.',
-    'No known launch blocker remains and the warm launch is live and being monitored.',['GO-13'])
+export const team = [
+  {id:'james',name:'James',role:'CEO / Launch Lead',type:'Internal'},
+  {id:'kasia',name:'Kasia',role:'CFO / Operations',type:'Internal'},
+  {id:'richard',name:'Richard Wall',role:'Accountant',type:'External'},
+  {id:'jocelyn',name:'Jocelyn Dela Cruz',role:'GoHighLevel / Content / Social Media',type:'Internal'},
+  {id:'abdal',name:'Abdal Bashir',role:'App & Web App Developer — IK Development',type:'External'}
 ];
 
-export const seedPeople = [
-  {id:'p-james',name:'James',role:'Launch lead'},
-  {id:'p-tech',name:'Technology',role:'App / website'},
-  {id:'p-content',name:'Content',role:'Programmes / nutrition'},
-  {id:'p-product',name:'Products',role:'Supplements / supply'},
-  {id:'p-marketing',name:'Marketing',role:'CRM / campaigns'},
-  {id:'p-ops',name:'Operations',role:'Finance / support / fulfilment'}
-];
-
-export const seedDecisions = [
-  {id:'DEC-001',date:'2026-09-16',title:'Launch date',decision:'Go live on 1 November 2026.',owner:'James',status:'locked'},
-  {id:'DEC-002',date:'2026-09-17',title:'Keep Launch Control separate',decision:'Nutrition Go Live is a standalone internal app and must not share runtime code or a database with the public Nutrition.Fitness website.',owner:'James',status:'locked'},
-  {id:'DEC-003',date:'2026-09-18',title:'Keep the plan simple',decision:'The launch plan uses a small number of big jobs. Detailed checklists live inside those jobs instead of becoming dozens of separate tasks.',owner:'James',status:'locked'}
+export const areas = [
+  {
+    id:'website',name:'Website',owner:'James',
+    summary:'Finish the customer-facing pages and then do one final launch check.',
+    blocker:'Programme landing pages and cookbook pages still need building.',
+    items:[
+      I('web-home','Homepage',100,'done','James','Complete.',12),
+      I('web-nufi','NUFI landing page',80,'inprogress','James','Mostly complete; final polish still needed.',10),
+      I('web-programmes','Programme landing pages',0,'todo','James','One landing page is needed for each programme.',15),
+      I('web-finder','Programme Finder / lead capture',70,'inprogress','James','Finish the quiz / freebie email-capture journey.',10),
+      I('web-recipes','Recipe & meal-planning web experience',100,'done','James','Complete.',10),
+      I('web-shop','Shop',100,'done','James','Complete.',10),
+      I('web-cookbooks','Cookbook landing / sales pages',0,'todo','James','Pages still need to be created.',8),
+      I('web-membership','Membership / subscription pricing page',100,'done','James','£19.99 monthly / £199 annual.',7),
+      I('web-checkout','Checkout + account / login',100,'done','James','Complete.',8),
+      I('web-trust','About + contact + legal pages',100,'done','James','Complete.',5),
+      I('web-final','Final website launch checks',0,'todo','James','Mobile QA, broken links, forms, analytics and final SEO checks once the site is ready.',5)
+    ]
+  },
+  {
+    id:'app',name:'App',owner:'Abdal Bashir',
+    summary:'The build is essentially complete. The remaining work is store release and proper testing.',
+    blocker:'Apple account / payment issue is holding up App Store submission.',
+    items:[
+      I('app-android','Android build',100,'done','Abdal Bashir','Developer reports build complete.',25),
+      I('app-google','Google Play submission',90,'inprogress','Abdal Bashir','Believed to be submitted; confirm approved/live status.',10),
+      I('app-apple-build','Apple build',100,'done','Abdal Bashir','Developer reports build complete.',25),
+      I('app-apple-account','Apple Developer account',40,'blocked','James','Waiting on Apple / payment issue.',5),
+      I('app-apple-submit','Apple App Store submission',0,'blocked','Abdal Bashir','Cannot complete until Apple account is available.',5),
+      I('app-functional','Functional testing',0,'todo','James','Formal testing has not started.',10),
+      I('app-uat','User acceptance testing',0,'todo','James','UAT has not started.',10),
+      I('app-device','Real-device testing',0,'todo','James','Test on representative iPhone and Android devices.',5),
+      I('app-final','Final production checks',0,'todo','Abdal Bashir','Login, onboarding, access, notifications and account basics.',5)
+    ]
+  },
+  {
+    id:'products',name:'Products',owner:'Kasia',
+    summary:'Range and suppliers are agreed. Finish artwork, pricing and place the stock order.',
+    blocker:'Final pricing/margins and purchase order are still outstanding.',
+    items:[
+      I('prod-range','Launch product range',100,'done','James','Launch range agreed.',15),
+      I('prod-art','Final packaging artwork',70,'inprogress','James','Concepts are complete; final print-ready artwork still needed.',20),
+      I('prod-maker','Manufacturer',100,'done','Kasia','Raw Creation agreed.',15),
+      I('prod-fulfil','Fulfilment route',100,'done','Kasia','Raw Creation fulfilment route agreed.',10),
+      I('prod-margin','Pricing & margins',10,'inprogress','Kasia','NUFI pricing is set; physical product pricing and margins still need final supplier costs.',15),
+      I('prod-order','Purchase stock',0,'todo','Kasia','Order still needs to be placed with Raw Creation.',15),
+      I('prod-images','Product images',100,'done','James','Complete.',5),
+      I('prod-social','First product social assets',100,'done','Jocelyn Dela Cruz','Complete.',5)
+    ]
+  },
+  {
+    id:'courses',name:'Courses',owner:'James',
+    summary:'Six course families, four stages each. Content is the main unfinished area.',
+    blocker:'Run, Cycle and Swim have no course content yet.',
+    items:[
+      I('course-build','Build',50,'inprogress','James','Foundation complete; Stage 2 appears complete; Stages 3–4 still needed.',10),
+      I('course-strength','Strength',50,'inprogress','James','Foundation complete; Stage 2 appears complete; Stages 3–4 still needed.',10),
+      I('course-fit','Fit',25,'inprogress','James','Foundation complete; Stages 2–4 still needed.',10),
+      I('course-run','Run',0,'todo','James','No content yet.',10),
+      I('course-cycle','Cycle',0,'todo','James','No content yet.',10),
+      I('course-swim','Swim',0,'todo','James','No content yet.',10),
+      I('course-pages','Course landing / sales pages',0,'todo','James','No landing pages or sales funnels yet.',15),
+      I('course-price','Individual course pricing',0,'todo','Kasia','Membership includes all courses; individual course price still needs setting.',10),
+      I('course-access','Access & purchase testing',50,'inprogress','Abdal Bashir','Access model agreed in principle: membership gets all; individual purchase gets one. Needs implementation/testing.',15)
+    ]
+  },
+  {
+    id:'recipes',name:'Recipes & Meal Planning',owner:'James',
+    summary:'Built and working. The remaining job is confirmation and proper testing.',
+    blocker:'Testing/UAT is only around 20% complete.',
+    items:[
+      I('recipe-content','Recipes',100,'done','James','All launch recipes complete.',20),
+      I('recipe-planner','Meal planner',100,'done','Abdal Bashir','Working.',20),
+      I('recipe-shopping','Shopping list',80,'inprogress','Abdal Bashir','Needs final confirmation with the developer that the delivered version is correct.',15),
+      I('recipe-personal','Personalisation',100,'done','Abdal Bashir','Calorie targets, portions, preferences and exclusions supported.',10),
+      I('recipe-access','Access rules',100,'done','James','Access can be assigned by membership / product.',10),
+      I('recipe-test','Full testing / UAT',20,'inprogress','James','Only lightly tested so far.',25)
+    ]
+  },
+  {
+    id:'cookbooks',name:'Cookbooks',owner:'James',
+    summary:'Recipes and images are largely done. Most remaining work is covers, editorial pages, proofing and print-ready output.',
+    blocker:'Six books still need the non-recipe book work completed.',
+    items:[
+      I('book-hpk','The High Protein Kitchen',100,'done','James','Complete.',1,[
+        C('hpk-recipes','Recipes',100,'done'),C('hpk-images','Recipe images',100,'done'),C('hpk-front','Front cover',100,'done'),
+        C('hpk-back','Back cover',100,'done'),C('hpk-intro','Introduction / welcome',100,'done'),C('hpk-contents','Contents page',100,'done'),
+        C('hpk-dividers','Divider pages',100,'done'),C('hpk-support','Supporting pages',100,'done'),C('hpk-layout','Final layout',100,'done'),
+        C('hpk-proof','Proofreading',100,'done'),C('hpk-print','Print / digital ready',100,'done')
+      ]),
+      I('book-blend','Blend & Go',50,'inprogress','James','Recipes, images, front cover, contents and layout are done; back cover is concept-only.',1,[
+        C('blend-recipes','Recipes',100,'done'),C('blend-images','Recipe images',100,'done'),C('blend-front','Front cover',100,'done'),
+        C('blend-back','Back cover',70,'inprogress','Concept complete; final version needed.'),C('blend-intro','Introduction / welcome',0,'todo'),
+        C('blend-contents','Contents page',100,'done'),C('blend-dividers','Divider pages',50,'inprogress','Needs checking.'),
+        C('blend-support','Supporting pages',0,'todo'),C('blend-layout','Final layout',100,'done'),C('blend-proof','Proofreading',0,'todo'),
+        C('blend-print','Print / digital ready',0,'todo')
+      ]),
+      ...['Breakfast, Sorted','Proper Everyday Food','The Big Night In','Air Fryer Favourites','Snack Happy','More Plants, Please'].map((name,n)=>I(
+        'book-'+['breakfast','everyday','night','airfryer','snack','plants'][n],name,27,'inprogress','James',
+        'Recipes, recipe images and contents are complete. The rest of the book still needs finishing.',1,[
+          C('b'+n+'-recipes','Recipes',100,'done'),C('b'+n+'-images','Recipe images',100,'done'),C('b'+n+'-front','Front cover',0,'todo'),
+          C('b'+n+'-back','Back cover',0,'todo'),C('b'+n+'-intro','Introduction / welcome',0,'todo'),C('b'+n+'-contents','Contents page',100,'done'),
+          C('b'+n+'-dividers','Divider pages',0,'todo'),C('b'+n+'-support','Supporting pages',0,'todo'),C('b'+n+'-layout','Final layout',0,'todo'),
+          C('b'+n+'-proof','Proofreading',0,'todo'),C('b'+n+'-print','Print / digital ready',0,'todo')
+        ]
+      ))
+    ]
+  },
+  {
+    id:'marketing',name:'Marketing & Growth',owner:'Jocelyn Dela Cruz',
+    summary:'This is the least-developed active area and needs building from the ground up.',
+    blocker:'No paid campaigns, email, funnels or tracking are set up yet.',
+    items:[
+      I('mkt-social','Social media',13,'inprogress','Jocelyn Dela Cruz','Facebook is partly set up; the other launch channels are not.',30,[
+        C('social-instagram','Instagram',0,'todo','Nothing set up yet.'),
+        C('social-tiktok','TikTok',0,'todo','Nothing set up yet.'),
+        C('social-facebook','Facebook',50,'inprogress','Page exists and banner has been started; profile icon/content still needed.'),
+        C('social-youtube','YouTube',0,'todo','Nothing set up yet.'),
+        {...C('social-pinterest','Pinterest',0,'todo','Not set up.'),later:true},
+        {...C('social-linkedin','LinkedIn',0,'todo','Not set up.'),later:true}
+      ]),
+      I('mkt-ads','Paid advertising',0,'todo','Jocelyn Dela Cruz','Nothing set up yet. Launch budget: £1,000. Meta is the first priority.',20),
+      I('mkt-ghl','GoHighLevel / CRM',20,'inprogress','Jocelyn Dela Cruz','Sub-account and basic business details exist. Forms, fields, pipelines, automations and testing still need doing.',20),
+      I('mkt-email','Email / SMS',0,'todo','Jocelyn Dela Cruz','No email or SMS journeys have been set up yet.',15),
+      I('mkt-funnels','Funnels & tracking',0,'todo','Jocelyn Dela Cruz','No funnels, pixels or conversion tracking are set up yet.',15)
+    ]
+  },
+  {
+    id:'operations',name:'Business Operations',owner:'Kasia',
+    summary:'Finance, people and general admin only — kept deliberately simple.',
+    blocker:'Bank account completion is holding up Stripe; insurance and customer-support setup are also outstanding.',
+    items:[
+      I('ops-finance','Finance',37,'inprogress','Kasia','Banking must finish before Stripe; QuickBooks and full pricing/margins still need work.',40,[
+        C('fin-bank','Business bank',60,'inprogress','ID requirements are done; complete the bank setup.'),
+        C('fin-quickbooks','QuickBooks',0,'todo','Not set up yet.'),
+        C('fin-stripe','Stripe / payments / subscriptions',0,'blocked','Blocked until the business bank is live.'),
+        C('fin-margin','Pricing & margins',10,'inprogress','Starter forecast created; actual Raw Creation costs and final retail prices still needed.'),
+        C('fin-forecast','Forecast / P&L',50,'inprogress','Starter pricing and 12-month forecast exists; convert to full P&L once real costs are known.'),
+        C('fin-accounting','Accountant / company filings',100,'done','Richard Wall handles accounting; company filings are complete.')
+      ]),
+      I('ops-staff','Staff & responsibilities',100,'done','James','Core team identified and roles recorded.',25,[
+        C('staff-james','James — CEO / Launch Lead',100,'done'),
+        C('staff-kasia','Kasia — CFO / Operations',100,'done'),
+        C('staff-richard','Richard Wall — Accountant',100,'done'),
+        C('staff-jocelyn','Jocelyn Dela Cruz — GHL / Content / Social',100,'done'),
+        C('staff-abdal','Abdal Bashir — App & Web App Developer / IK Development',100,'done')
+      ]),
+      I('ops-admin','General admin',56,'inprogress','Kasia','Insurance, supplier paperwork, support email and AI customer-service voice still need doing.',35,[
+        C('admin-bankid','Business bank ID requirements',100,'done'),
+        C('admin-insurance','Insurance',0,'todo','Not set up yet.'),
+        C('admin-filings','Company filings',100,'done'),
+        C('admin-supplier','Supplier paperwork',0,'todo','Nothing done yet.'),
+        C('admin-support','Customer support email',0,'todo','Needs setting up.'),
+        C('admin-ai','AI customer-service voice',0,'todo','Needs setting up.'),
+        C('admin-access','System access / passwords / handover',100,'done','Access is in place; Apple is tracked under App.'),
+        C('admin-revenue','Revenue Monkey',100,'done','Set up and access held.'),
+        C('admin-devaccess','Developer access',100,'done','Developers have the access they need.')
+      ])
+    ]
+  },
+  {
+    id:'launch',name:'Launch & Final Checks',owner:'James',
+    summary:'Leave this quiet until the other areas are nearly ready. Then use it as the final sign-off list.',
+    blocker:'Not started — intentionally.',
+    items:[
+      I('launch-stores','App Store / Google Play confirmed',0,'todo','James','Confirm both stores are ready.',1),
+      I('launch-web','Website final checks complete',0,'todo','James','Run final website checks.',1),
+      I('launch-uat','Full UAT / testing complete',0,'todo','James','Run the full customer journey.',1),
+      I('launch-payments','Payments / subscriptions tested',0,'todo','Kasia','Test real payment flows once Stripe is live.',1),
+      I('launch-stock','Product stock / order confirmed',0,'todo','Kasia','Confirm stock order and delivery.',1),
+      I('launch-support','Customer support ready',0,'todo','Kasia','Support email and AI voice ready.',1),
+      I('launch-go','Final go / no-go check',0,'todo','James','Final sign-off before launch.',1)
+    ]
+  }
 ];
