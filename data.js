@@ -22,11 +22,11 @@ export const areas = [
     items:[
       I('web-home','Homepage',100,'done','James','Complete.',12),
       I('web-nufi','NUFI landing page',80,'inprogress','James','Mostly complete; final polish still needed.',10),
-      I('web-programmes','Programme landing pages',0,'todo','James','One landing page is needed for each programme.',15),
+      I('web-programmes','Programme landing pages',0,'todo','James','Build the launch programme pages first.',15,[C('web-prog-build','Build landing page',0,'todo'),C('web-prog-strength','Strength landing page',0,'todo'),C('web-prog-fit','Fit landing page',0,'todo'),C('web-prog-run','Run landing page',0,'todo'),C('web-prog-cycle','Cycle landing page',0,'todo'),C('web-prog-swim','Swim landing page',0,'todo')]),
       I('web-finder','Programme Finder / lead capture',70,'inprogress','James','Finish the quiz / freebie email-capture journey.',10),
       I('web-recipes','Recipe & meal-planning web experience',100,'done','James','Complete.',10),
       I('web-shop','Shop',100,'done','James','Complete.',10),
-      I('web-cookbooks','Cookbook landing / sales pages',0,'todo','James','Pages still need to be created.',8),
+      I('web-cookbooks','Cookbook landing / sales pages',0,'todo','James','Launch pages first; the rest can follow.',8,[C('web-book-hpk','High Protein Kitchen page',0,'todo'),C('web-book-blend','Blend & Go page',0,'todo'),C('web-book-night','Big Night In page',0,'todo'),C('web-book-rest','Other cookbook pages',0,'todo')]),
       I('web-membership','Membership / subscription pricing page',100,'done','James','£19.99 monthly / £199 annual.',7),
       I('web-checkout','Checkout + account / login',100,'done','James','Complete.',8),
       I('web-trust','About + contact + legal pages',100,'done','James','Complete.',5),
@@ -65,19 +65,36 @@ export const areas = [
     ]
   },
   {
-    id:'courses',name:'Courses',owner:'James',
-    summary:'Six course families, four stages each. Content is the main unfinished area.',
-    blocker:'Run, Cycle and Swim have no course content yet.',
+    id:'programmes',name:'Programmes',owner:'James',
+    summary:'Build, Strength and Fit are the launch programmes. Run, Cycle and Swim move after launch.',
+    blocker:'Build, Strength and Fit need to be launch-ready; the others must not distract the launch.',
     items:[
-      I('course-build','Build',50,'inprogress','James','Foundation complete; Stage 2 appears complete; Stages 3–4 still needed.',10),
-      I('course-strength','Strength',50,'inprogress','James','Foundation complete; Stage 2 appears complete; Stages 3–4 still needed.',10),
-      I('course-fit','Fit',25,'inprogress','James','Foundation complete; Stages 2–4 still needed.',10),
-      I('course-run','Run',0,'todo','James','No content yet.',10),
-      I('course-cycle','Cycle',0,'todo','James','No content yet.',10),
-      I('course-swim','Swim',0,'todo','James','No content yet.',10),
-      I('course-pages','Course landing / sales pages',0,'todo','James','No landing pages or sales funnels yet.',15),
-      I('course-price','Individual course pricing',0,'todo','Kasia','Membership includes all courses; individual course price still needs setting.',10),
-      I('course-access','Access & purchase testing',50,'inprogress','Abdal Bashir','Access model agreed in principle: membership gets all; individual purchase gets one. Needs implementation/testing.',15)
+      I('prog-build','Build',50,'inprogress','James','Foundation complete; Stage 2 appears complete. Finish the launch-ready content.',20),
+      I('prog-strength','Strength',50,'inprogress','James','Foundation complete; Stage 2 appears complete. Finish the launch-ready content.',20),
+      I('prog-fit','Fit',25,'inprogress','James','Foundation complete; finish the content needed for launch.',20),
+      I('prog-run','Run',0,'todo','James','No content yet. After launch.',10),
+      I('prog-cycle','Cycle',0,'todo','James','No content yet. After launch.',10),
+      I('prog-swim','Swim',0,'todo','James','No content yet. After launch.',10),
+      I('prog-price','Individual programme pricing',0,'todo','Kasia','Membership includes all programmes; individual purchase pricing still needs setting.',5),
+      I('prog-access','Programme access & purchase testing',50,'inprogress','Abdal Bashir','Membership gets all; individual purchase gets one. Needs final implementation/testing.',5)
+    ]
+  },
+  {
+    id:'courses',name:'Courses',owner:'James',
+    summary:'Educational courses are about 80% complete. They are important, but they do not block go-live.',
+    blocker:'Branding, naming and final presentation are the main remaining jobs.',
+    items:[
+      I('edu-nutrition','Nutrition',80,'inprogress','James','Content largely complete; final Nutrition.Fitness branding/presentation needed.',1),
+      I('edu-fatloss','Fat Loss',80,'inprogress','James','Content largely complete; final branding/presentation needed.',1),
+      I('edu-habits','Habits',80,'inprogress','James','Content largely complete; final branding/presentation needed.',1),
+      I('edu-sleep','Sleep',80,'inprogress','James','Content largely complete; final branding/presentation needed.',1),
+      I('edu-stress','Stress Management',80,'inprogress','James','Content largely complete; final branding/presentation needed.',1),
+      I('edu-emotional','Overcoming Emotional Eating',80,'inprogress','James','Content largely complete; final branding/presentation needed.',1),
+      I('edu-sports','Sports Nutrition',80,'inprogress','James','Content largely complete; final branding/presentation needed.',1),
+      I('edu-longevity','Longevity',80,'inprogress','James','Content largely complete; final branding/presentation needed.',1),
+      I('edu-yoga','Yoga',80,'inprogress','James','Content largely complete; final branding/presentation needed.',1),
+      I('edu-branding','Course branding system',20,'inprogress','James','Agree the customer-facing names, covers/cards and consistent visual treatment.',2),
+      I('edu-final','Final course presentation check',0,'todo','James','Check all courses look consistent and polished before promoting them.',1)
     ]
   },
   {
@@ -95,8 +112,8 @@ export const areas = [
   },
   {
     id:'cookbooks',name:'Cookbooks',owner:'James',
-    summary:'Recipes and images are largely done. Most remaining work is covers, editorial pages, proofing and print-ready output.',
-    blocker:'Six books still need the non-recipe book work completed.',
+    summary:'High Protein Kitchen and Blend & Go are needed for launch. Big Night In is important. The rest move after launch.',
+    blocker:'Finish Blend & Go. Big Night In is important but does not block launch.',
     items:[
       I('book-hpk','The High Protein Kitchen',100,'done','James','Complete.',1,[
         C('hpk-recipes','Recipes',100,'done'),C('hpk-images','Recipe images',100,'done'),C('hpk-front','Front cover',100,'done'),
@@ -189,3 +206,57 @@ export const areas = [
     ]
   }
 ];
+
+
+export const priorityNames = {critical:'GO LIVE',important:'IMPORTANT',later:'AFTER LAUNCH'};
+
+const priorityMap = {
+  // Website
+  'web-home':'critical','web-nufi':'critical','web-programmes':'critical','web-prog-build':'critical','web-prog-strength':'critical','web-prog-fit':'critical',
+  'web-prog-run':'later','web-prog-cycle':'later','web-prog-swim':'later','web-finder':'critical','web-recipes':'critical','web-shop':'critical',
+  'web-cookbooks':'critical','web-book-hpk':'critical','web-book-blend':'critical','web-book-night':'important','web-book-rest':'later',
+  'web-membership':'critical','web-checkout':'critical','web-trust':'critical','web-final':'critical',
+
+  // App
+  'app-android':'critical','app-google':'critical','app-apple-build':'critical','app-apple-account':'critical','app-apple-submit':'critical',
+  'app-functional':'critical','app-uat':'critical','app-device':'critical','app-final':'critical',
+
+  // Products
+  'prod-range':'critical','prod-art':'critical','prod-maker':'critical','prod-fulfil':'critical','prod-margin':'critical','prod-order':'critical',
+  'prod-images':'critical','prod-social':'important',
+
+  // Programmes
+  'prog-build':'critical','prog-strength':'critical','prog-fit':'critical','prog-run':'later','prog-cycle':'later','prog-swim':'later',
+  'prog-price':'critical','prog-access':'critical',
+
+  // Recipes
+  'recipe-content':'critical','recipe-planner':'critical','recipe-shopping':'critical','recipe-personal':'critical','recipe-access':'critical','recipe-test':'critical',
+
+  // Cookbooks
+  'book-hpk':'critical','book-blend':'critical','book-night':'important','book-breakfast':'later','book-everyday':'later','book-airfryer':'later','book-snack':'later','book-plants':'later',
+
+  // Educational courses
+  'edu-nutrition':'important','edu-fatloss':'important','edu-habits':'important','edu-sleep':'important','edu-stress':'important',
+  'edu-emotional':'important','edu-sports':'important','edu-longevity':'important','edu-yoga':'important','edu-branding':'important','edu-final':'important',
+
+  // Marketing
+  'mkt-social':'critical','social-instagram':'critical','social-tiktok':'critical','social-facebook':'critical','social-youtube':'important',
+  'social-pinterest':'later','social-linkedin':'later','mkt-ads':'important','mkt-ghl':'critical','mkt-email':'critical','mkt-funnels':'critical',
+
+  // Operations
+  'ops-finance':'critical','fin-bank':'critical','fin-quickbooks':'important','fin-stripe':'critical','fin-margin':'critical','fin-forecast':'important','fin-accounting':'critical',
+  'ops-staff':'important','ops-admin':'critical','admin-bankid':'critical','admin-insurance':'critical','admin-filings':'critical','admin-supplier':'critical',
+  'admin-support':'critical','admin-ai':'later','admin-access':'critical','admin-revenue':'important','admin-devaccess':'critical',
+
+  // Launch
+  'launch-stores':'critical','launch-web':'critical','launch-uat':'critical','launch-payments':'critical','launch-stock':'critical','launch-support':'critical','launch-go':'critical'
+};
+
+function applyPriority(items,inherited='important'){
+  for(const item of items||[]){
+    item.priority=priorityMap[item.id]||inherited;
+    item.later=item.priority==='later';
+    if(item.children?.length)applyPriority(item.children,item.priority);
+  }
+}
+for(const area of areas) applyPriority(area.items);
