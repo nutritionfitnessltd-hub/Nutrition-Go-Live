@@ -260,3 +260,62 @@ function applyPriority(items,inherited='important'){
   }
 }
 for(const area of areas) applyPriority(area.items);
+
+
+/*
+  Readiness scoring is effort-weighted, not task-count weighted.
+  A small admin blocker can still be critical without pretending it represents
+  the same amount of completed work as building the app, recipe system or website.
+*/
+export const areaScoreWeights = {
+  website:20,
+  app:20,
+  products:10,
+  programmes:13,
+  courses:8,
+  recipes:15,
+  cookbooks:7,
+  marketing:3,
+  operations:2,
+  launch:2
+};
+
+export const taskScoreWeights = {
+  // Website — most of the work is already in the core site and customer journey.
+  'web-home':25,'web-nufi':15,'web-programmes':7,'web-finder':4,'web-recipes':15,'web-shop':12,
+  'web-cookbooks':3,'web-membership':5,'web-checkout':10,'web-trust':3,'web-final':1,
+
+  // App — the two production builds represent the largest body of work.
+  'app-android':35,'app-google':5,'app-apple-build':35,'app-apple-account':2,'app-apple-submit':3,
+  'app-functional':7,'app-uat':7,'app-device':3,'app-final':3,
+
+  // Products.
+  'prod-range':10,'prod-art':20,'prod-maker':15,'prod-fulfil':15,'prod-margin':10,'prod-order':10,
+  'prod-images':15,'prod-social':5,
+
+  // Programmes.
+  'prog-build':30,'prog-strength':30,'prog-fit':25,'prog-run':5,'prog-cycle':5,'prog-swim':5,
+  'prog-price':2,'prog-access':8,
+
+  // Educational courses — the nine finished bodies of content carry almost all the work.
+  'edu-nutrition':10,'edu-fatloss':10,'edu-habits':10,'edu-sleep':10,'edu-stress':10,
+  'edu-emotional':10,'edu-sports':10,'edu-longevity':10,'edu-yoga':10,'edu-branding':0.5,'edu-final':0.5,
+
+  // Recipes / meal planning.
+  'recipe-content':25,'recipe-planner':25,'recipe-shopping':15,'recipe-personal':10,'recipe-access':5,'recipe-test':20,
+
+  // Cookbooks — launch books are the largest share of the work.
+  'book-hpk':25,'book-blend':20,'book-night':15,'book-breakfast':8,'book-everyday':8,'book-airfryer':8,'book-snack':8,'book-plants':8,
+
+  // Marketing.
+  'mkt-social':20,'mkt-ads':10,'mkt-ghl':25,'mkt-email':20,'mkt-funnels':25,
+
+  // Business operations. Small admin items do not distort overall completion.
+  'ops-finance':45,'ops-staff':15,'ops-admin':40,
+  'fin-bank':5,'fin-quickbooks':5,'fin-stripe':15,'fin-margin':10,'fin-forecast':5,'fin-accounting':5,
+  'admin-bankid':2,'admin-insurance':8,'admin-filings':3,'admin-supplier':8,'admin-support':8,
+  'admin-ai':3,'admin-access':3,'admin-revenue':2,'admin-devaccess':3,
+
+  // Final checks are important gates, but relatively small amounts of work.
+  'launch-stores':1,'launch-web':1,'launch-uat':1,'launch-payments':1,'launch-stock':1,'launch-support':1,'launch-go':1
+};
