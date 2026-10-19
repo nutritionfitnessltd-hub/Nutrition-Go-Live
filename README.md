@@ -63,3 +63,10 @@ This is a static application plus one Vercel function at `/api/config`. Vercel c
 Every day, prioritise the task that is currently constraining the complete customer journey:
 
 **discover → understand → choose → pay → access → use → receive → get support → renew/repeat**
+
+
+## Migration to James HQ
+
+The 200-record, ten-workstream plan from commit 04e5f6d74aaacaca2b91e5408b5b2cb141335691 is preserved in the owner-private James HQ project dashboard. Open https://james-control-centre.james615845.chatgpt.site/?view=Projects&project=nutrition-fitness-go-live . Imported progress claims are not fresh verification.
+
+After this retirement page is deployed, the old interface becomes read-only. It reads go_live_areas without clearing or resetting browser data. Open the original dashboard origin in the browser you used, choose Transfer saved plan to HQ, and approve the import there. A download/import fallback is available; HQ saves the previous plan before each import or edit. Original data.js remains unchanged. Do not delete this deployment until browser-held edits have been recovered. Repository history supports rollback. The public website, app and their databases are separate and unaffected.
